@@ -1,8 +1,5 @@
 package Game;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import Item.Defensive;
@@ -50,6 +47,7 @@ public class Game {
 			System.out.println("Money\t\t: " + playerNow.getMoney());
 			System.out.println("Mana\t\t: " + playerNow.getMana());
 			System.out.println("Base Damage\t: " + playerNow.getDamage());
+			System.out.print(">> ");
 			
 //			System.out.println("\n" + move.getX() + " " + move.getY());
 			
@@ -67,8 +65,19 @@ public class Game {
 						losePage();
 					}
 					else {
-						saveGame();
-						return;
+						System.out.println("Are you sure? If you exit now, your information will be lost.");
+						System.out.print("Yes | No [Case Insensitive]: ");
+						String yesno = new String();
+						do {
+							yesno = Util.scan.nextLine();
+							if(yesno.equalsIgnoreCase("yes")) {
+								Util.CLEAR_CONSOLE();
+								return;
+							}
+							else if(!yesno.equalsIgnoreCase("no")) {
+								System.out.print("Please input Yes | No [Case Insensitive]: ");
+							}
+						} while(!yesno.equalsIgnoreCase("no"));
 					}
 					break;
 				case "w":
@@ -96,7 +105,7 @@ public class Game {
 
 	private void losePage() {
 		Util.CLEAR_CONSOLE();
-		System.out.println("Sorry, you've lost! Try playing again!\n");
+		System.out.println("Sorry, you've lost:( Better luck next time\n");
 		Util.PRESS_ENTER();
 	}
 
@@ -149,9 +158,25 @@ public class Game {
 		move.setY(newY);
 	}
 
+	private void showAttributesInformation(Monster monster) {
+		System.out.println("Player " + playerNow.getEmail() + " Information");
+		System.out.println("Health\t\t: " + playerNow.getHealth());
+		System.out.println("Money\t\t: " + playerNow.getMoney());
+		System.out.println("Mana\t\t: " + playerNow.getMana());
+		System.out.println("Base Damage\t: " + playerNow.getDamage());
+		
+		System.out.println();
+		
+		System.out.println("Monster " + monster.getName() + " Information");
+		System.out.println("Health\t\t: " + monster.getHealth());
+		System.out.println("Base Damage\t: " + monster.getDamage());
+		
+		System.out.println();
+	}
+
 	private void printItemBought() {
 		if(itemBought.isEmpty()) {
-			System.out.println("You haven't bought any item yet. Go to shop to buy.");
+			System.out.println("You haven't bought any item yet. Go to shop menu (Z) to buy.");
 			Util.PRESS_ENTER();
 			return;
 		}
@@ -174,6 +199,33 @@ public class Game {
 			}
 		}
 		Util.PRESS_ENTER();
+	}
+
+	private void showOffensivesAndSpellsBought() {
+		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-12s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use/Mana", "Use Left");
+		for(Item bought : itemBought) {
+			if(bought instanceof Offensive) {
+				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12d | %-10d |\n",
+						bought.getID(), bought.getName(), "Offensive", bought.getPrice(),
+						((Offensive) bought).getDamage(), ((Offensive) bought).getMaxUse(), ((Offensive) bought).getUseLeft());
+			}
+			else if(bought instanceof Spell) {
+				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12f | %-10s |\n",
+						bought.getID(), bought.getName(), "Spell", bought.getPrice(),
+						((Spell) bought).getDamage(), ((Spell) bought).getMana(), "-");
+			}
+		}
+	}
+
+	private void showDefensivesBought() {
+		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use", "Use Left");
+		for(Item bought : itemBought) {
+			if(bought instanceof Defensive) {
+				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10d | %-10d |\n",
+						bought.getID(), bought.getName(), "Defensive", bought.getPrice(),
+						((Defensive) bought).getDeflect(), ((Defensive) bought).getMaxUse(), ((Defensive) bought).getUseLeft());
+			}
+		}
 	}
 
 	private void printShopPage() {
@@ -341,24 +393,12 @@ public class Game {
 				}
 				break;
 		}
-		if(monster.getHealth() <= 0) System.out.println("Monster killed!");
+		if(monster.getHealth() <= 0) {
+			System.out.println("Monster killed!");
+			int moneyGotten = Randomizer.randomInt(0, 50);
+			playerNow.setMoney(playerNow.getMoney() + moneyGotten);
+		}
 		Util.PRESS_ENTER();
-	}
-
-	private void showAttributesInformation(Monster monster) {
-		System.out.println("Player " + playerNow.getEmail() + " Information");
-		System.out.println("Health\t\t: " + playerNow.getHealth());
-		System.out.println("Money\t\t: " + playerNow.getMoney());
-		System.out.println("Mana\t\t: " + playerNow.getMana());
-		System.out.println("Base Damage\t: " + playerNow.getDamage());
-		
-		System.out.println();
-		
-		System.out.println("Monster " + monster.getName() + " Information");
-		System.out.println("Health\t\t: " + monster.getHealth());
-		System.out.println("Base Damage\t: " + monster.getDamage());
-		
-		System.out.println();
 	}
 
 	private void playerTurntoFight(Monster monster) {
@@ -389,6 +429,7 @@ public class Game {
 					if(use instanceof Offensive) {
 						if(((Offensive)use).checkValidity()) {
 							System.out.println("Attacking " + monster.getName() + " with " + use.getName());
+							((Offensive)use).setUseLeft(((Offensive)use).getUseLeft() - 1);
 							System.out.println(use.getName() + " used. " + ((Offensive)use).getUseLeft() + " left to use this item.\n");
 							
 							damage += ((Offensive)use).addDamage(damage);
@@ -418,6 +459,7 @@ public class Game {
 					// check monster's special ability
 					if(monster instanceof Strength) {
 						damage = ((Strength)monster).deflectDamage(damage);
+						System.out.println(monster.getName() + " has armor to deflect your damage");
 					}
 					monster.setHealth(monster.getHealth() - damage);
 					System.out.println(monster.getName() + " got " + damage + " of damage");
@@ -452,22 +494,6 @@ public class Game {
 		return null;
 	}
 
-	private void showOffensivesAndSpellsBought() {
-		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-12s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use/Mana", "Use Left");
-		for(Item bought : itemBought) {
-			if(bought instanceof Offensive) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12d | %-10d |\n",
-						bought.getID(), bought.getName(), "Offensive", bought.getPrice(),
-						((Offensive) bought).getDamage(), ((Offensive) bought).getMaxUse(), ((Offensive) bought).getUseLeft());
-			}
-			else if(bought instanceof Spell) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12f | %-10s |\n",
-						bought.getID(), bought.getName(), "Spell", bought.getPrice(),
-						((Spell) bought).getDamage(), ((Spell) bought).getMana(), "-");
-			}
-		}
-	}
-
 	private void monsterTurntoFight(Monster monster) {
 		System.out.println("Monster is going to attack");
 		Item use = new Item("", "", 0);
@@ -476,15 +502,15 @@ public class Game {
 				System.out.println("Do you want to use your defensive item?");
 				showDefensivesBought();
 				String yesno = new String();
+				System.out.print("Yes | No [Case Insensitive]: ");
 				do {
-					System.out.println("Yes | No [Case Insensitive]: ");
 					yesno = Util.scan.nextLine();
 					if(yesno.equalsIgnoreCase("yes")) {
 						use = inputItemIDtoUsetoDeflect();
 						break;
 					}
 					else if(!yesno.equalsIgnoreCase("no")) {
-						System.out.println("Please input Yes | No [Case Insensitive]");
+						System.out.print("Please input Yes | No [Case Insensitive]: ");
 					}
 				} while(!yesno.equalsIgnoreCase("no"));
 				break;
@@ -530,17 +556,6 @@ public class Game {
 		Util.PRESS_ENTER();
 	}
 
-	private void showDefensivesBought() {
-		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use", "Use Left");
-		for(Item bought : itemBought) {
-			if(bought instanceof Defensive) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10d | %-10d |\n",
-						bought.getID(), bought.getName(), "Defensive", bought.getPrice(),
-						((Defensive) bought).getDeflect(), ((Defensive) bought).getMaxUse(), ((Defensive) bought).getUseLeft());
-			}
-		}
-	}
-
 	private Item inputItemIDtoUsetoDeflect() {
 		String ID = new String();
 		System.out.print("Input item's ID : ");
@@ -551,44 +566,6 @@ public class Game {
 			}
 		}
 		return null;
-	}
-
-	public void saveGame() {
-		try {
- 			BufferedWriter writer = new BufferedWriter(new FileWriter("credential.txt", false)); // overwrite, not append
- 			// write the player now (whether they are new player or not)
- 			writer.write(playerNow.getEmail() + "#" + playerNow.getPassword() + "#" + playerNow.getMoney() + "#" + playerNow.getHealth() + "#" + playerNow.getMana() + "#");
- 			int index = 0;
-			for(Item bought : itemBought) {
-				writer.write(bought.getID() + "@");
-				if(bought instanceof Offensive) {
-					writer.write(String.valueOf(((Offensive) bought).getUseLeft()));
-				}
-				else if(bought instanceof Defensive) {
-					writer.write(String.valueOf(((Defensive) bought).getUseLeft()));
-				}
-				else if(bought instanceof Spell) {
-					writer.write(String.valueOf(((Spell) bought).getMana()));
-				}
-				if(index++ < itemBought.size()-1) writer.write("-");
-			}
-			// write the other player credentials, except the player now
-			for(Credential credential : playerList) {
-				if(!credential.getEmail().equals(playerNow.getEmail())) {
-					writer.write(credential.getEmail() + "#" + credential.getPassword());
-					if(credential.getMoney() != 999) { // means new player
-						writer.write("#" + credential.getMoney() + "#" + credential.getHealth() + "#" + credential.getMana() + "#");
-						if(credential.getItemSaved() != null) { // if there are any item bought
-							writer.write(credential.getItemSaved());
-						}
-					}
-				}
-				writer.write("\n");
-			}
- 			writer.close();
- 		} catch (IOException e) {
- 			System.out.println("Writing to file credential.txt failed");
- 		}
 	}
 	
 }
