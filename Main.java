@@ -98,8 +98,6 @@ public class Main {
 					break;
 			}
 		} while(menuInput != 3);
-		
-		exitAnimation();
 	}
 
 	private void login() {
@@ -290,55 +288,27 @@ public class Main {
 	}
 
 	private void readItem() {
-		Scanner scan = null;
-		try {
-			File items = new File("item.txt");
-			scan = new Scanner(items);
-		} catch (Exception e) {
-			System.out.printf("File item.txt not found!");
-			// e.printStackTrace();
-		}
-		try {
-			while(scan.hasNextLine()) {
-				String row = scan.nextLine();
-				String[] split = row.split("#");
-				
-				if(split[2].equals("offensive")) {
-					Offensive offensive = new Offensive(split[0], split[1], Integer.parseInt(split[3]), Double.parseDouble(split[4]), Integer.parseInt(split[5]), Integer.parseInt(split[5]));
-					game.itemList.add(offensive);
-				}
-				else if(split[2].equals("defensive")) {
-					Defensive defensive = new Defensive(split[0], split[1], Integer.parseInt(split[3]), Double.parseDouble(split[4]), Integer.parseInt(split[5]), Integer.parseInt(split[5]));
-					game.itemList.add(defensive);
-				}
-				else if(split[2].equals("spell")) {
-					Spell spell = new Spell(split[0], split[1], Integer.parseInt(split[3]), Double.parseDouble(split[4]), Double.parseDouble(split[5]));
-					game.itemList.add(spell);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		scan.close();
+// 		RBOOCH#Revenants Brooch#spell#64#50#7
+// STNIC#Satanic#defensive#42#30#3
+// BTLFR#Battle Fury#offensive#91#100#6
+// MYSTF#Mystic Staff#spell#36#30#5
+// UTMTOB#Ultimate Orb#offensive#77#50#8
+// SCRC#Sacred Relic#defensive#18#15#4
+// WCTHBLD#Witch Blade#spell#7#5#2
+// WRHBND#Wraith Band#offensive#5#3#9
+// VNGRD#Vanguard#defensive#27#20#4
+// TMLRLC#Timeless Relice#spell#30#20#3
+// VNDCT#Vindicator's#offensive#20#15#2
+// URNSHDW#Urn Of Shadows#defensive#27#21#6
+// TRDNT#Trident#spell#22#15#1
+// SHDWBLD#Shadow Blade#offensive#21#15#5
+// STTSHLD#Stout Shield#defensive#23#24#2
 	}
 	
 	private void readMonster() {
-		Scanner scan = null;
-		try {
-			File items = new File("monster.txt");
-			scan = new Scanner(items);
-		} catch (Exception e) {
-			System.out.printf("File monster.txt not found!");
-			// e.printStackTrace();
-		}
-		try {
-			for(int i = 0; i < 3; i++) {
-				storeMonster(i, scan);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		scan.close();
+// 		Earthshaker#Sven#Tiny#Kunkka#Beastmaster#Dragon Knight#Clockwerk#Omniknight#Huskar#Alchemist
+// Crystal Maiden#Puck#Storm Spirit#Windranger#Zeus#Lina#Shadow Shaman#Tinker#Nature's Prophet#Enchantress
+// Anti-Mage#Drow Ranger#Juggernaut#Mirana#Morphling#Phantom Lancer#Vengeful Spirit#Riki#Sniper#Templar Assassin
 	}
 
 	private void storeMonster(Integer i, Scanner scan) {
