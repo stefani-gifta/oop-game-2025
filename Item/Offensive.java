@@ -1,0 +1,52 @@
+package Item;
+
+public class Offensive extends Item implements maxUse, damage {
+	
+	public double damage;
+
+	@Override
+	public double addDamage(double damageInPlay) {
+		damageInPlay += damage;
+		return damageInPlay;
+	}
+	
+	public int maxUse;
+	public int useLeft;
+
+	@Override
+	public boolean checkValidity() {
+		if(useLeft > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public Offensive(String iD, String name, int price, double damage, int maxUse, int useLeft) {
+		super(iD, name, price);
+		this.damage = damage;
+		this.maxUse = maxUse;
+		this.useLeft = useLeft;
+	}
+
+	public double getDamage() {
+		return damage;
+	}
+	public void setDamage(double damage) {
+		this.damage = damage;
+	}
+
+	public int getMaxUse() {
+		return maxUse;
+	}
+	public void setMaxUse(int maxUse) {
+		this.maxUse = maxUse;
+	}
+
+	public int getUseLeft() {
+		return useLeft;
+	}
+	public void setUseLeft(int useLeft) {
+		this.useLeft = useLeft;
+	}
+	
+}
