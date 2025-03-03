@@ -45,13 +45,14 @@ public class Credential {
 	}
 	
 	public int getMoney() {
-		if(money <= 0) {
-			return 0;
-		}
 		return money;
 	}
 	public void setMoney(int money) {
-		this.money = money;
+		if(money <= 0) {
+			this.money = 0;
+		} else {
+			this.money = money;
+		}
 	}
 	
 	public double getHealth() {
