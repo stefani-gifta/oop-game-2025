@@ -10,13 +10,13 @@ import Util.IO;
 
 public class Game {
 
-	private ArrayList<Item> itemList;
-	private ArrayList<Monster> monsterList;
+	public ArrayList<Item> itemList;
+	public ArrayList<Monster> monsterList;
 
 	public ArrayList<Credential> playerList = new ArrayList<Credential>();
 	
 	public Credential playerNow;
-	private ArrayList<Item> itemBought = new ArrayList<Item>();
+	public ArrayList<Item> itemBought = new ArrayList<Item>();
 
 	public Game(Credential player) {
 		// register items and monsters
@@ -106,7 +106,8 @@ public class Game {
 //			move.setY(285);
 		} while(bigMap[move.getY()][move.getX()] != ' ');
 
-		new Gameplay(move, bigMap);
+		Gameplay play = new Gameplay(move, bigMap);
+		play.play();
 	}
 	
 }
