@@ -12,7 +12,7 @@ import Monster.Monster;
 import Monster.Strength;
 import User.Credential;
 import Util.Randomizer;
-import Util.Util;
+import Util.IO;
 
 public class Game {
 	
@@ -51,7 +51,7 @@ public class Game {
 			
 //			System.out.println("\n" + move.getX() + " " + move.getY());
 			
-			inputMove = Util.scan.next().charAt(0); Util.scan.nextLine();
+			inputMove = Util.scan.next().charAt(0); IO.scan.nextLine();
 			
 			switch(String.valueOf(inputMove).toLowerCase()) {
 				case "i":
@@ -69,9 +69,9 @@ public class Game {
 						System.out.print("Yes | No [Case Insensitive]: ");
 						String yesno = new String();
 						do {
-							yesno = Util.scan.nextLine();
+							yesno = IO.scan.nextLine();
 							if(yesno.equalsIgnoreCase("yes")) {
-								Util.CLEAR_CONSOLE();
+								IO.CLEAR_CONSOLE();
 								return;
 							}
 							else if(!yesno.equalsIgnoreCase("no")) {
@@ -99,14 +99,14 @@ public class Game {
 			
 //			System.out.println("\n" + move.getX() + " " + move.getY());
 
-			Util.CLEAR_CONSOLE();
+			IO.CLEAR_CONSOLE();
 		} while(inputMove != 'e' || playerNow.getHealth() > 0);
 	}
 
 	private void losePage() {
-		Util.CLEAR_CONSOLE();
+		IO.CLEAR_CONSOLE();
 		System.out.println("Sorry, you've lost:( Better luck next time\n");
-		Util.PRESS_ENTER();
+		IO.PRESS_ENTER();
 	}
 
 	public void showPortionofMap() {
@@ -177,7 +177,7 @@ public class Game {
 	private void printItemBought() {
 		if(itemBought.isEmpty()) {
 			System.out.println("You haven't bought any item yet. Go to shop menu (Z) to buy.");
-			Util.PRESS_ENTER();
+			IO.PRESS_ENTER();
 			return;
 		}
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-12s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use/Mana", "Use Left");
@@ -198,7 +198,7 @@ public class Game {
 						((Spell) bought).getDamage(), ((Spell) bought).getMana(), "-");
 			}
 		}
-		Util.PRESS_ENTER();
+		IO.PRESS_ENTER();
 	}
 
 	private void showOffensivesAndSpellsBought() {
@@ -229,7 +229,7 @@ public class Game {
 	}
 
 	private void printShopPage() {
-		Util.CLEAR_CONSOLE();
+		IO.CLEAR_CONSOLE();
 		int menuInput;
 		do {
 			System.out.println("1. Buy Offensive Item");
@@ -237,9 +237,9 @@ public class Game {
 			System.out.println("3. Buy Spell Item");
 			System.out.println("4. Exit Shop");
 			System.out.print(">> ");
-			menuInput = Util.scan.nextInt(); Util.scan.nextLine();
+			menuInput = IO.scan.nextInt(); IO.scan.nextLine();
 
-			Util.CLEAR_CONSOLE();
+			IO.CLEAR_CONSOLE();
 			
 			switch(menuInput) {
 				case 1:
@@ -310,7 +310,7 @@ public class Game {
 		Item toBuy = new Item(ID, "", 0);
 		do {
 			System.out.print("Input item's ID ['Exit' to cancel]: ");
-			ID = Util.scan.nextLine();
+			ID = IO.scan.nextLine();
 			if(ID.equalsIgnoreCase("exit")) {
 				return;
 			}
@@ -326,7 +326,7 @@ public class Game {
 		
 		if(playerNow.getMoney() < toBuy.getPrice()) {
 			System.out.println("You don't have enough money!");
-			Util.PRESS_ENTER();
+			IO.PRESS_ENTER();
 			return;
 		}
 		
@@ -352,15 +352,15 @@ public class Game {
 		playerNow.setMoney(playerNow.getMoney() - toBuy.getPrice());
 		itemBought.add(toBuy);
 		System.out.println("Item added to inventory");
-		Util.PRESS_ENTER();
+		IO.PRESS_ENTER();
 	}
 	
 	private void whatsInTheGrass() {
 		int monster = Randomizer.randomInt(0, 100);
 		if(monster < 30) {
-			Util.CLEAR_CONSOLE();
+			IO.CLEAR_CONSOLE();
 			System.out.println("Welcome to the Fight Arena");
-			Util.PRESS_ENTER();
+			IO.PRESS_ENTER();
 			goToArena();
 		}
 	}
@@ -398,7 +398,7 @@ public class Game {
 			int moneyGotten = Randomizer.randomInt(0, 50);
 			playerNow.setMoney(playerNow.getMoney() + moneyGotten);
 		}
-		Util.PRESS_ENTER();
+		IO.PRESS_ENTER();
 	}
 
 	private void playerTurntoFight(Monster monster) {
@@ -408,7 +408,7 @@ public class Game {
 			System.out.println("2. Attack with Item");
 			System.out.println("3. Store Mana");
 			System.out.print("Input action to take >> ");
-			input = Util.scan.nextInt(); Util.scan.nextLine();
+			input = IO.scan.nextInt(); IO.scan.nextLine();
 			if(input < 1 || input > 3) {
 				System.out.println("You can only input 1, 2, or 3");
 			}
@@ -472,7 +472,7 @@ public class Game {
 				System.out.println("Added 10.00 mana");
 				break;
 		}
-		Util.PRESS_ENTER();
+		IO.PRESS_ENTER();
 	}
 
 	private Item inputItemIDtoUsetoAttack() {
@@ -481,7 +481,7 @@ public class Game {
 			boolean found = false;
 			do {
 				System.out.print("Input item's ID : ");
-				ID = Util.scan.nextLine();
+				ID = IO.scan.nextLine();
 				for(Item bought : itemBought) {
 					if(ID.equals(bought.getID())) {
 						found = true;
@@ -504,7 +504,7 @@ public class Game {
 				String yesno = new String();
 				System.out.print("Yes | No [Case Insensitive]: ");
 				do {
-					yesno = Util.scan.nextLine();
+					yesno = IO.scan.nextLine();
 					if(yesno.equalsIgnoreCase("yes")) {
 						use = inputItemIDtoUsetoDeflect();
 						break;
@@ -553,13 +553,13 @@ public class Game {
 			System.out.println("Received damage " + damage);
 		}
 		if(damage > 0) playerNow.setHealth(playerNow.getHealth() - damage);
-		Util.PRESS_ENTER();
+		IO.PRESS_ENTER();
 	}
 
 	private Item inputItemIDtoUsetoDeflect() {
 		String ID = new String();
 		System.out.print("Input item's ID : ");
-		ID = Util.scan.nextLine();
+		ID = IO.scan.nextLine();
 		for(Item bought : itemBought) {
 			if(ID.equals(bought.getID())) {
 				return bought;

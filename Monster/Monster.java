@@ -2,7 +2,8 @@ package Monster;
 
 public abstract class Monster {
 
-	private String name;
+	// final -> cannot be edited anymore
+	private final String name;
 	private double damage;
 	private double health;
 	
@@ -16,15 +17,12 @@ public abstract class Monster {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public double getDamage() {
 		return damage;
 	}
 	public void setDamage(double damage) {
-		this.damage = damage;
+		this.damage = damage; // damage can increase
 	}
 
 	public double getHealth() {
