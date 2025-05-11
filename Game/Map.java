@@ -5,6 +5,15 @@ import java.util.ArrayList;
 import Util.Randomizer;
 
 public class Map {
+	
+	// generate ultimate game map
+
+	public char[][] generateFilledBigMap() {
+		char[][] bigMap = generateEmptyBigMap();
+		fillEmptyBigMap(bigMap);
+		putCoinsRandomly(bigMap);
+		return bigMap;
+	}
 
 	// generate 300x300 empty map
 	
@@ -21,9 +30,9 @@ public class Map {
 	String grassOptionString = " vV";
 	String wallOptionString = " #";
 	
-	// generate 3x3 to fill the big map
+	// generate filled 3x3 maps to fill the big map
 	
-	public ArrayList<String> generateSmallMap(String optionString) {
+	private ArrayList<String> generateSmallMap(String optionString) {
 		ArrayList<String> array = new ArrayList<String>();
 		for(int i = 0; i < 3; i++) {
 			array.add("");
@@ -48,13 +57,6 @@ public class Map {
 			} while(bigMap[indexY][indexX] != ' ');
 			bigMap[indexY][indexX] = 'O';
 		}
-	}
-
-	public char[][] generateFilledBigMap() {
-		char[][] bigMap = generateEmptyBigMap();
-		fillEmptyBigMap(bigMap);
-		putCoinsRandomly(bigMap);
-		return bigMap;
 	}
 
 	private void fillEmptyBigMap(char[][] bigMap) {
