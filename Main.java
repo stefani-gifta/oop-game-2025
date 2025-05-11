@@ -1,15 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import Util.Randomizer;
-import Util.Util;
+import Util.*;
 import Game.Game;
-import Item.Defensive;
-import Item.Offensive;
-import Item.Spell;
-import Monster.Agility;
-import Monster.Intelligence;
-import Monster.Strength;
+import Item.*;
+import Monster.*;
 import User.Credential;
 
 public class Main {
@@ -17,13 +12,15 @@ public class Main {
 	Game game = new Game();
 	
 	public static void main(String[] args) {
-		new Main();
+		// register items and monsters
+		AddingItem();
+		AddingMonster();
+		
+		// print main menu
+		printMainMenu();
 	}
 
-	public Main() {
-		addItem();
-		addMonster();
-		
+	private static void printMainMenu() {
 		int menuInput;
 		do {
 			System.out.println("1. Login");
@@ -57,7 +54,7 @@ public class Main {
 		} while(menuInput != 4);
 	}
 
-	private void login() {
+	private static void login() {
 		while(true) {
 			System.out.println("Input 'Exit' to quit");
 			
@@ -91,41 +88,29 @@ public class Main {
 		}
 	}
 
-	private void register() {
+	private static void register() {
 		while(true) {
 			System.out.print("Enter new email: ");
 	        String email = Util.scan.nextLine();
 	
-	        if(isValidEmail(email)) {
+	        if(RegisterValidation.isValidEmail(email)) {
 	            System.out.print("Enter new password: ");
 	            String password = Util.scan.nextLine();
 	
-	            if(isValidPassword(password)) {
+	            if(RegisterValidation.isValidPassword(password)) {
 	                Credential newCredential = new Credential(email, password, 999, 0, 0, 0);
 	                game.playerList.add(newCredential);
 	                System.out.println("Registration successful. You can login now.");
 	    	        Util.PRESS_ENTER();
 	                break;
-	            } else {
-	                System.out.println("Password length must be between 8 and 30 characters");
 	            }
-	        } else {
-	            System.out.println("Email must be in the format 'email@domain.domain' (Example: hi@email.com)");
 	        }
 	        
 	        Util.PRESS_ENTER();
 		}
 	}
 
-	private boolean isValidPassword(String password) {
-		return password.length() >= 8 && password.length() <= 30;
-	}
-
-	private boolean isValidEmail(String email) {
-		return email.matches("[^@]+@[^@]+\\.[^@][^\\.]+");
-	}
-
-	private void view() {
+	private static void view() {
 		if(game.playerList.isEmpty()) {
 			System.out.println("No account registered yet!");
 			Util.PRESS_ENTER();
@@ -156,15 +141,13 @@ public class Main {
 				do {
 					System.out.print("Enter new password: ");
 					password = Util.scan.nextLine();
-					if(isValidPassword(password)) {
+					if(RegisterValidation.isValidPassword(password)) {
 						accountPicked.setPassword(password);
 						System.out.println("Account updated!");
 						Util.PRESS_ENTER();
 						return;
-					} else {
-						System.out.println("Password length must be between 8 and 30 characters");
 					}
-				} while(!isValidPassword(password));
+				} while(!RegisterValidation.isValidPassword(password));
 			} else {
 				System.out.print("Wrong password! Forget password? Type 0 to exit (or 1 to retry): ");
 				accountNumber = Util.scan.nextInt(); Util.scan.nextLine();
@@ -206,7 +189,7 @@ public class Main {
 	private void howToPlayPage() {
 		System.out.println("Welcome to the adventure!");
 		System.out.println("The rules are simple. Simply move around using the usual controls (W, A, S, D).");
-		System.out.println("As you roam, you’ll find coins (O) waiting to be collected.");
+		System.out.println("As you roam, youï¿½ll find coins (O) waiting to be collected.");
 		System.out.println("But watch out! Lurking in the grass might be monsters ready to challenge you.");
 		System.out.println("Defeat those monsters, and you'll earn some coins which you can use to buy cool items!");
 		System.out.println("So, are you ready to dive in?\n");
@@ -231,54 +214,4 @@ public class Main {
         Util.PRESS_ENTER();
 	}
 
-	private void addItem() {
-        game.itemList.add(new Offensive("BTLR", "Battle Fury", 91, 100, 6, 6));
-        game.itemList.add(new Offensive("UTMTOB", "Ultimate Orb", 77, 50, 8, 8));
-        game.itemList.add(new Offensive("WRHBND", "Wraith Band", 5, 3, 9, 9));
-        game.itemList.add(new Offensive("VNDCT", "Vindicator's", 20, 15, 2, 2));
-        game.itemList.add(new Offensive("SHDWBLD", "Shadow Blade", 21, 15, 5, 5));
-        
-        game.itemList.add(new Defensive("STNIC", "Satanic", 42, 30, 3, 3));
-        game.itemList.add(new Defensive("SCRC", "Sacred Relic", 18, 15, 4, 4));
-        game.itemList.add(new Defensive("URNSHDW", "Urn Of Shadows", 27, 21, 6, 6));
-        game.itemList.add(new Defensive("STTSHLD", "Stout Shield", 23, 24, 2, 2));
-        game.itemList.add(new Defensive("VNGRD", "Vanguard", 27, 20, 4, 4));
-        
-        game.itemList.add(new Spell("RBOOCH", "Revenants Brooch", 64, 50, 7));
-        game.itemList.add(new Spell("MYSTF", "Mystic Staff", 36, 30, 5));
-        game.itemList.add(new Spell("WCTHBLD", "Witch Blade", 7, 5, 2));
-        game.itemList.add(new Spell("TMLRLC", "Timeless Relic", 30, 20, 3));
-        game.itemList.add(new Spell("TRDNT", "Trident", 22, 15, 1));
-	}
-	
-	private void addMonster() {
-		ArrayList<String> Strength = new ArrayList<>(Arrays.asList("Earthshaker", "Tiny", "Biggy", "Beastmaster", "Dragon Knight"));
-		for (String string : Strength) {
-			double damage = Randomizer.random(20, 30);
-			double health = Randomizer.random(200, 210);
-			double armor = Randomizer.random(20, 40);
-			Strength strength = new Strength(string, damage, health);
-			strength.setArmor(armor);
-			game.monsterList.add(strength);
-		}
-		
-		ArrayList<String> Intelligence = new ArrayList<>(Arrays.asList("Enchantress", "Tinker", "Zeus", "Nature's Prophet", "Crystal Maiden"));
-		for (String string : Intelligence) {
-			double damage = Randomizer.random(10, 20);
-			double health = Randomizer.random(100, 110);
-			Intelligence intelligence = new Intelligence(string, damage, health);
-			game.monsterList.add(intelligence);
-		}
-		
-		ArrayList<String> Agility = new ArrayList<>(Arrays.asList("Juggernaut", "Sniper", "Vengeful Spirit", "Phantom Lancer", "Firanha"));
-		for (String string : Agility) {
-			double damage = Randomizer.random(40, 50);
-			double health = Randomizer.random(100, 110) - damage;
-			double critical = Randomizer.random(1, 3);
-			Agility agility = new Agility(string, damage, health);
-			agility.setCritical(critical);
-			game.monsterList.add(agility);
-		}
-	}
-	
 }
