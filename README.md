@@ -100,7 +100,7 @@ Monsters lurk in grass patches and have special abilities:
    ```bash
    git clone https://github.com/stefani-gifta/oop-game-2025
     ```
-2. **Open the project**
+2. **Open the project** in your IDE
 3. **Navigate to the src directory**  
    ```bash
    cd src
