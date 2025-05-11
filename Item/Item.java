@@ -2,8 +2,9 @@ package Item;
 
 public class Item {
 
-	private String ID;
-	private String name;
+	// final -> cannot be edited anymore
+	private final String ID;
+	private final String name;
 	private int price;
 	
 	public Item(String iD, String name, int price) {
@@ -16,15 +17,9 @@ public class Item {
 	public String getID() {
 		return ID;
 	}
-	public void setID(String iD) {
-		ID = iD;
-	}
 
 	public String getName() {
 		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	public int getPrice() {

@@ -2,7 +2,7 @@ package Item;
 
 public class Defensive extends Item implements maxUse {
 	
-	public double deflect;
+	public double deflect; // damage that wil be deflected when this item type is in use
 	
 	public double deflectDamage(double damage) {
 		damage -= deflect;
@@ -21,8 +21,8 @@ public class Defensive extends Item implements maxUse {
 		return false;
 	}
 
-	public Defensive(String iD, String name, int price, double deflect, int maxUse, int useLeft) {
-		super(iD, name, price);
+	public Defensive(String ID, String name, int price, double deflect, int maxUse, int useLeft) {
+		super(ID, name, price);
 		this.deflect = deflect;
 		this.maxUse = maxUse;
 		this.useLeft = useLeft;

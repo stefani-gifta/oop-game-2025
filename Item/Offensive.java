@@ -1,10 +1,9 @@
 package Item;
 
-public class Offensive extends Item implements maxUse, damage {
+public class Offensive extends Item implements maxUse {
 	
-	public double damage;
+	public double damage; // damage that will be added when this item type is used
 
-	@Override
 	public double addDamage(double damageInPlay) {
 		damageInPlay += damage;
 		return damageInPlay;
