@@ -31,5 +31,11 @@ public abstract class Monster {
 	public void setHealth(double health) {
 		this.health = health;
 	}
+	public boolean hasDied() {
+		if(health <= 0) {
+			return true;
+		}
+		return false;
+	}
 
 }

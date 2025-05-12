@@ -8,56 +8,105 @@ import Util.*;
 
 public class Battlefield {
 
-    public void goToArena() {
-		// generate random monster
-		int monsterInd = Randomizer.randomInt(0, monsterList.size()-1);
-		Monster monster = monsterList.get(monsterInd);
-		// randomize turn
-		int turn = Randomizer.randomInt(1, 2);
-		switch(turn) {
-			case 1:
-				// player first
-				while(playerNow.getHealth() > 0 && monster.getHealth() > 0) {
-					showAttributesInformation(monster);
-					if(playerNow.getHealth() > 0) playerTurntoFight(monster);
-					else return;
-					showAttributesInformation(monster);
-					if(monster.getHealth() > 0) monsterTurntoFight(monster);
-				}
-				break;
-			case 2:
-				// monster first
-				while(playerNow.getHealth() > 0 && monster.getHealth() > 0) {
-					showAttributesInformation(monster);
-					if(monster.getHealth() > 0) monsterTurntoFight(monster);
-					else return;
-					showAttributesInformation(monster);
-					if(playerNow.getHealth() > 0) playerTurntoFight(monster);
-				}
-				break;
-		}
-		if(monster.getHealth() <= 0) {
-			System.out.println("Monster killed!");
-			int moneyGotten = Randomizer.randomInt(0, 50);
-			playerNow.setMoney(playerNow.getMoney() + moneyGotten);
-		}
-		IO.PRESS_ENTER();
-	}
+	private Credential playerNow;
+	private double damage = 0;
+	private double monsterDamage = 0;
+	private ArrayList<Item> itemBought = new ArrayList<Item>();
+	private ArrayList<Monster> monsterList = new ArrayList<Monster>();
 
-	private void showAttributesInformation(Monster monster) {
-		playerNow.showPlayerInformation();
-		System.out.println();
-		showMonsterInformation(monster);
-		System.out.println();
-	}
+	// generate random monster
+	private Monster monster = monsterList.get(Randomizer.randomInt(0, monsterList.size()-1));
 
-    private void showMonsterInformation(Monster monster) {
+    private void showMonsterInformation() {
         System.out.println("Monster " + monster.getName() + " Information");
 		System.out.println("Health\t\t: " + monster.getHealth());
 		System.out.println("Base Damage\t: " + monster.getDamage());
     }
 
-	private void playerTurntoFight(Monster monster) {
+	public Battlefield(Game game) {
+		playerNow = game.playerNow;
+		itemBought = playerNow.getItemBought();
+		monsterList = game.monsterList;
+	}
+
+    public void goToArena() {
+		IO.CLEAR_CONSOLE();
+		System.out.println("Welcome to the Fight Arena");
+		IO.PRESS_ENTER();
+
+		// randomize turn
+		int turn = Randomizer.randomBoolean() ? 1 : 2;
+		switch(turn) {
+			case 1:
+				playerFirst();
+				break;
+			case 2:
+				monsterFirst();
+				break;
+		}
+
+		IO.PRESS_ENTER();
+	}
+
+	private void playerFirst() {
+		System.out.println("You are first to attack");
+		while(playerNow.getHealth() > 0 && monster.getHealth() > 0) {
+			checkPlayerHealth();
+			checkMonsterHealth();
+			showAttributesInformation();
+			if(playerNow.getHealth() > 0) playerTurntoFight();
+			else return;
+			showAttributesInformation();
+			if(monster.getHealth() > 0) monsterTurntoFight();
+		}
+	}
+
+	private void monsterFirst() {
+		System.out.println("Monster is first to attack");
+		while(playerNow.getHealth() > 0 && monster.getHealth() > 0) {
+			checkPlayerHealth();
+			checkMonsterHealth();
+			showAttributesInformation();
+			if(monster.getHealth() > 0) monsterTurntoFight();
+			else return;
+			showAttributesInformation();
+			if(playerNow.getHealth() > 0) playerTurntoFight();
+		}
+	}
+
+	private void checkPlayerHealth() {
+		if(playerNow.hasDied()) {
+			losePage();
+		}
+	}
+
+	private void losePage() {
+		IO.CLEAR_CONSOLE();
+		System.out.println("Sorry, you've lost. Try again. Wish you better luck!\n");
+		IO.PRESS_ENTER();
+	}
+
+	private void checkMonsterHealth() {
+		if(monster.hasDied()) {
+			System.out.println("Monster killed!");
+			getMoneyFromWinning();
+		}
+	}
+
+	private void getMoneyFromWinning() {
+		int moneyGotten = Randomizer.randomInt(0, 50);
+		playerNow.setMoney(playerNow.getMoney() + moneyGotten);
+	}
+
+	private void showAttributesInformation() {
+		playerNow.showPlayerInformation();
+		System.out.println();
+		showMonsterInformation();
+		System.out.println();
+	}
+
+	private void playerTurntoFight() {
+		damage = playerNow.getDamage(); // reset damage every turn
 		int input = -1;
 		do {
 			System.out.println("1. Pure Attack");
@@ -71,7 +120,7 @@ public class Battlefield {
 		} while(input < 1 || input > 3);
 		switch(input) {
 			case 1:
-				monsterPureAttack();
+				pureAttack();
 				break;
 			case 2:
 				attackWithItem();
@@ -83,41 +132,64 @@ public class Battlefield {
 		IO.PRESS_ENTER();
 	}
 
-    private void monsterPureAttack() {
+    private void pureAttack() {
         System.out.println("Attacking " + monster.getName());
 		System.out.println(monster.getName() + " got damage " + playerNow.getDamage());
 		monster.setHealth(monster.getHealth() - playerNow.getDamage());
     }
 
+	private void attackMonster() {
+        monster.setHealth(monster.getHealth() - damage);
+        System.out.println(monster.getName() + " got " + damage + " of damage");
+        monster.setHealth(monster.getHealth() - damage);
+	}
+
     private void attackWithItem() {
-        playerNow.showOffensivesAndSpellsBought();
-        chooseAnItem();
+		if(playerNow.hasItemBought()) {
+			playerNow.showOffensivesAndSpellsBought();
+			chooseAnItem();
+		}
     }
 
     private void chooseAnItem() {
         System.out.println("Please choose an item");
         Item use = inputItemIDtoUsetoAttack();
-        double damage = playerNow.getDamage();
         if(use != null) {
-            checkItemType();
+            checkItemType(use);
             checkMonsterSpecialAbility();
+			attackMonster();
         }
     }
 
-    private void checkItemType() {
+	private Item inputItemIDtoUsetoAttack() {
+		String ID = new String();
+		boolean found = false;
+		do {
+			System.out.print("Input item's ID : ");
+			ID = IO.scan.nextLine();
+			for(Item bought : itemBought) {
+				if(ID.equals(bought.getID())) {
+					found = true;
+					return bought;
+				}
+			}
+		} while(!found);
+		return null;
+	}
+
+    private void checkItemType(Item use) {
         if(use instanceof Offensive) {
             if(((Offensive)use).checkValidity()) {
                 System.out.println("Attacking " + monster.getName() + " with " + use.getName());
                 ((Offensive)use).setUseLeft(((Offensive)use).getUseLeft() - 1);
                 System.out.println(use.getName() + " used. " + ((Offensive)use).getUseLeft() + " left to use this item.\n");
                 
-                damage += ((Offensive)use).addDamage(damage);
+                damage = playerNow.getDamage() + ((Offensive)use).getDamage();
             }
             else {
+				// use left is 0
                 System.out.println("No use left! Use pure attack instead");
-                System.out.println("Attacking " + monster.getName());
-                System.out.println(monster.getName() + " got damage " + playerNow.getDamage());
-                monster.setHealth(monster.getHealth() - playerNow.getDamage());
+				pureAttack();
             }
         }
         else if(use instanceof Spell) {
@@ -125,26 +197,48 @@ public class Battlefield {
                 System.out.println("Attacking " + monster.getName() + " with " + use.getName());
                 System.out.println(use.getName() + " used.\n");
                 
-                damage += ((Spell)use).addDamage(damage);
+                damage = playerNow.getDamage() + ((Spell)use).getDamage();
                 playerNow.setMana(playerNow.getMana() - ((Spell)use).getMana());
             }
             else {
+				// not enough mana
                 System.out.println("Not enough mana to use item! Use pure attack instead");
-                System.out.println("Attacking " + monster.getName());
-                System.out.println(monster.getName() + " got damage " + playerNow.getDamage());
-                monster.setHealth(monster.getHealth() - playerNow.getDamage());
+				pureAttack();
             }
-        }
+        } else if(use instanceof Defensive) {
+			if(((Defensive)use).checkValidity()) {
+				System.out.println(use.getName() + " was equipped");
+				((Defensive)use).setUseLeft(((Defensive)use).getUseLeft() - 1);
+				System.out.println(use.getName() + " used. " + ((Defensive)use).getUseLeft() + " left to use this item.\n");
+				
+				System.out.println("Received damage " + damage + ", but deflected " + ((Defensive)use).getDeflect() + " using " + ((Defensive)use).getName());
+				damage = ((Defensive)use).deflectDamage(damage);
+			}
+			else {
+				System.out.println("No use left!");
+			}
+		}
     }
 
     private void checkMonsterSpecialAbility() {
+		System.out.print(monster.getName() + " is a type of " + monster.getClass().getSimpleName() + " hero, ");
+
         if(monster instanceof Strength) {
             damage = ((Strength)monster).deflectDamage(damage);
             System.out.println(monster.getName() + " has armor to deflect your damage");
         }
-        monster.setHealth(monster.getHealth() - damage);
-        System.out.println(monster.getName() + " got " + damage + " of damage");
-        monster.setHealth(monster.getHealth() - damage);
+		else if(monster instanceof Intelligence) {
+			double addition = ((Intelligence)monster).addDamage();
+			System.out.println("using skill gave bonus damage " + addition);
+			monsterDamage += addition;
+		}
+		else if(monster instanceof Agility) {
+			System.out.println("it has a critical damage of " + ((Agility)monster).getCritical());
+			monsterDamage += ((Agility)monster).getCritical();
+		}
+		else {
+			System.out.println("it has no special ability");
+		}
     }
 
     private void storeMana() {
@@ -153,28 +247,29 @@ public class Battlefield {
         System.out.println("Added 10.00 mana");
     }
 
-	private Item inputItemIDtoUsetoAttack() {
-		if(!itemBought.isEmpty()) {
-			String ID = new String();
-			boolean found = false;
-			do {
-				System.out.print("Input item's ID : ");
-				ID = IO.scan.nextLine();
-				for(Item bought : itemBought) {
-					if(ID.equals(bought.getID())) {
-						found = true;
-						return bought;
-					}
-				}
-			} while(!found);
+	private void monsterTurntoFight() {
+		monsterDamage = monster.getDamage(); // reset damage every turn
+		System.out.println("Monster is going to attack");
+
+		Item use = askingToUseDefensiveItem();
+		
+		System.out.println(monster.getName() + " is attacking with a base damage of " + monster.getDamage());
+		checkMonsterSpecialAbility();
+
+		System.out.println();
+
+		// check item bought
+		if(use != null) {
+			checkItemType(use);
+		} else {
+			System.out.println("Received damage " + damage);
 		}
-		System.out.println("You have not bought any yet!");
-		return null;
+
+		playerNow.setHealth(playerNow.getHealth() - monsterDamage);
+		IO.PRESS_ENTER();
 	}
 
-	private void monsterTurntoFight(Monster monster) {
-		System.out.println("Monster is going to attack");
-		Item use = new Item("", "", 0);
+	private Item askingToUseDefensiveItem() {
 		for(Item bought : itemBought) {
 			if(bought instanceof Defensive) {
 				System.out.println("Do you want to use your defensive item?");
@@ -184,54 +279,16 @@ public class Battlefield {
 				do {
 					yesno = IO.scan.nextLine();
 					if(yesno.equalsIgnoreCase("yes")) {
-						use = inputItemIDtoUsetoDeflect();
-						break;
+						Item use = inputItemIDtoUsetoDeflect();
+						return use;
 					}
 					else if(!yesno.equalsIgnoreCase("no")) {
 						System.out.print("Please input Yes | No [Case Insensitive]: ");
 					}
 				} while(!yesno.equalsIgnoreCase("no"));
-				break;
 			}
 		}
-		double damage = monster.getDamage();
-		System.out.println(monster.getName() + " is attacking with a base damage of " + monster.getDamage());
-		System.out.print(monster.getName() + " is a type of " + monster.getClass().getSimpleName() + " hero, ");
-		// check monster's special abilities
-		if(monster instanceof Intelligence) {
-			double addition = ((Intelligence)monster).addDamage();
-			System.out.println("using skill gave bonus damage " + addition);
-			damage += addition;
-		}
-		else if(monster instanceof Agility) {
-			System.out.println("it has a critical damage of " + ((Agility)monster).getCritical());
-			damage += ((Agility)monster).getCritical();
-		}
-		else {
-			System.out.println("it has no special ability");
-		}
-		System.out.println();
-		// check item bought
-		if(use != null) {
-			if(use instanceof Defensive) {
-				if(((Defensive)use).checkValidity()) {
-					System.out.println(use.getName() + " was equipped");
-					((Defensive)use).setUseLeft(((Defensive)use).getUseLeft() - 1);
-					System.out.println(use.getName() + " used. " + ((Defensive)use).getUseLeft() + " left to use this item.\n");
-					
-					System.out.println("Received damage " + damage + ", but deflected " + ((Defensive)use).getDeflect() + " using " + ((Defensive)use).getName());
-					damage = ((Defensive)use).deflectDamage(damage);
-				}
-				else {
-					System.out.println("No use left!");
-				}
-			}
-		}
-		else {
-			System.out.println("Received damage " + damage);
-		}
-		if(damage > 0) playerNow.setHealth(playerNow.getHealth() - damage);
-		IO.PRESS_ENTER();
+		return null;
 	}
 
 	private Item inputItemIDtoUsetoDeflect() {

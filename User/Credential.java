@@ -70,6 +70,12 @@ public class Credential {
 	public void setHealth(double health) {
 		this.health = health;
 	}
+	public boolean hasDied() {
+		if(health <= 0) {
+			return true;
+		}
+		return false;
+	}
 
 	public double getMana() {
 		return mana;
@@ -81,18 +87,30 @@ public class Credential {
 	public double getDamage() {
 		return damage;
 	}
-	public void setDamage(double damage) {
-		this.damage = damage;
-	}
 
 	// ITEMS BOUGHT IN GAME
 
 	private static ArrayList<Item> itemBought = new ArrayList<Item>();
 
-	public void printItemBought() {
+	public ArrayList<Item> getItemBought() {
+		return itemBought;
+	}
+
+	public void addItemBought(Item item) {
+		itemBought.add(item);
+	}
+
+	public boolean hasItemBought() {
 		if(itemBought.isEmpty()) {
 			System.out.println("You haven't bought any item yet. Go to shop menu (Z) to buy.");
 			IO.PRESS_ENTER();
+			return false;
+		}
+		return true;
+	}
+
+	public void printItemBought() {
+		if(!hasItemBought()) {
 			return;
 		}
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-12s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use/Mana", "Use Left");

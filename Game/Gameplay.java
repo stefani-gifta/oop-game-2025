@@ -5,7 +5,8 @@ import Util.*;
 
 public class Gameplay {
 
-	private Credential playerNow;
+	private Game game;
+	public Credential playerNow;
 
     private Move move;
     private char[][] bigMap;
@@ -13,6 +14,7 @@ public class Gameplay {
     public Gameplay(Game game, Move move, char[][] bigMap) {
         this.move = move;
         this.bigMap = bigMap;
+		this.game = game;
 		playerNow = game.playerNow;
     }
 
@@ -21,10 +23,6 @@ public class Gameplay {
 
         // will only be printing small portions of the big map
 		do {
-            if(playerNow.getHealth() <= 0) {
-                losePage();
-            }
-
 			showPortionofMap();
 			System.out.println();
             playerNow.showPlayerInformation();
@@ -83,12 +81,6 @@ public class Gameplay {
         } while(!yesno.equalsIgnoreCase("no"));
     }
 
-	private void losePage() {
-		IO.CLEAR_CONSOLE();
-		System.out.println("Sorry, you've lost:( Better luck next time\n");
-		IO.PRESS_ENTER();
-	}
-
 	private void showPortionofMap() {
 		for(int i = move.getY(); i < move.getY()+15; i++) {
 			for(int j = move.getX(); j < move.getX()+35; j++) {
@@ -138,12 +130,9 @@ public class Gameplay {
 	}
 
 	private void whatsInTheGrass() {
-		int monster = Randomizer.randomInt(0, 100);
-		if(monster < 30) {
-			IO.CLEAR_CONSOLE();
-			System.out.println("Welcome to the Fight Arena");
-			IO.PRESS_ENTER();
-			new Battlefield().goToArena();
+		int thereIsMonster = Randomizer.randomInt(0, 100);
+		if(thereIsMonster < 30) { // 30% chance of encountering a monster
+			new Battlefield(game);
 		}
 	}
 

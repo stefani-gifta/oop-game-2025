@@ -1,14 +1,8 @@
 package Item;
 
-public class Spell extends Item implements damage {
+public class Spell extends Item {
 	
 	public double damage;
-
-	@Override
-	public double addDamage(double damageInPlay) {
-		damageInPlay += damage;
-		return damageInPlay;
-	}
 	
 	public double mana;
 

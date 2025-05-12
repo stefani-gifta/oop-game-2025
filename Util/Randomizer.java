@@ -18,5 +18,9 @@ public class Randomizer {
 		int index = r.nextInt(optionString.length());
 		return optionString.charAt(index);
 	}
+
+	public static boolean randomBoolean() {
+		return r.nextBoolean();
+	}
 	
 }

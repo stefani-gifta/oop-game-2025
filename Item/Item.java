@@ -7,9 +7,9 @@ public class Item {
 	private final String name;
 	private int price;
 	
-	public Item(String iD, String name, int price) {
+	public Item(String id, String name, int price) {
 		super();
-		ID = iD;
+		ID = id;
 		this.name = name;
 		this.price = price;
 	}
