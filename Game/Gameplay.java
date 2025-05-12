@@ -1,13 +1,19 @@
 package Game;
 
+import User.Credential;
+import Util.*;
+
 public class Gameplay {
 
-    Move move;
-    char[][] bigMap;
+	private Credential playerNow;
 
-    public Gameplay(Move move, char[] bigMap) {
+    private Move move;
+    private char[][] bigMap;
+
+    public Gameplay(Game game, Move move, char[][] bigMap) {
         this.move = move;
         this.bigMap = bigMap;
+		playerNow = game.playerNow;
     }
 
 	public void play() {
@@ -21,16 +27,16 @@ public class Gameplay {
 
 			showPortionofMap();
 			System.out.println();
-            showPlayerInformation();
+            playerNow.showPlayerInformation();
 			System.out.print(">> ");
 			
 //			System.out.println("\n" + move.getX() + " " + move.getY());
 			
-			inputMove = Util.scan.next().charAt(0); IO.scan.nextLine();
+			inputMove = IO.scan.next().charAt(0); IO.scan.nextLine();
 			
 			switch(String.valueOf(inputMove).toLowerCase()) {
 				case "i":
-					printItemBought();
+					playerNow.printItemBought();
 					break;
 				case "z":
                     new Shop(this).printShopPage();
@@ -83,14 +89,6 @@ public class Gameplay {
 		IO.PRESS_ENTER();
 	}
 
-    private void showPlayerInformation() {
-        System.out.println("Player " + playerNow.getEmail() + " Information");
-        System.out.println("Health\t\t: " + playerNow.getHealth());
-        System.out.println("Money\t\t: " + playerNow.getMoney());
-        System.out.println("Mana\t\t: " + playerNow.getMana());
-        System.out.println("Base Damage\t: " + playerNow.getDamage());
-    }
-
 	private void showPortionofMap() {
 		for(int i = move.getY(); i < move.getY()+15; i++) {
 			for(int j = move.getX(); j < move.getX()+35; j++) {
@@ -100,7 +98,6 @@ public class Gameplay {
 					}
 					else System.out.print(bigMap[i][j]);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 //					e.printStackTrace();
 					System.out.println("\nYou've reached the end of the world ...");
 					j -= 2; // forces player to go back
@@ -138,73 +135,6 @@ public class Gameplay {
 		
 		move.setX(newX);
 		move.setY(newY);
-	}
-
-	private void showAttributesInformation(Monster monster) {
-		showPlayerInformation();
-		System.out.println();
-		showMonsterInformation(monster);
-		System.out.println();
-	}
-
-    private void showMonsterInformation(Monster monster) {
-        System.out.println("Monster " + monster.getName() + " Information");
-		System.out.println("Health\t\t: " + monster.getHealth());
-		System.out.println("Base Damage\t: " + monster.getDamage());
-    }
-
-	private void printItemBought() {
-		if(itemBought.isEmpty()) {
-			System.out.println("You haven't bought any item yet. Go to shop menu (Z) to buy.");
-			IO.PRESS_ENTER();
-			return;
-		}
-		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-12s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use/Mana", "Use Left");
-		for(Item bought : itemBought) {
-			if(bought instanceof Offensive) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12d | %-10d |\n",
-						bought.getID(), bought.getName(), "Offensive", bought.getPrice(),
-						((Offensive) bought).getDamage(), ((Offensive) bought).getMaxUse(), ((Offensive) bought).getUseLeft());
-			}
-			else if(bought instanceof Defensive) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12d | %-10d |\n",
-						bought.getID(), bought.getName(), "Defensive", bought.getPrice(),
-						((Defensive) bought).getDeflect(), ((Defensive) bought).getMaxUse(), ((Defensive) bought).getUseLeft());
-			}
-			else if(bought instanceof Spell) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12f | %-10s |\n",
-						bought.getID(), bought.getName(), "Spell", bought.getPrice(),
-						((Spell) bought).getDamage(), ((Spell) bought).getMana(), "-");
-			}
-		}
-		IO.PRESS_ENTER();
-	}
-
-	private void showOffensivesAndSpellsBought() {
-		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-12s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use/Mana", "Use Left");
-		for(Item bought : itemBought) {
-			if(bought instanceof Offensive) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12d | %-10d |\n",
-						bought.getID(), bought.getName(), "Offensive", bought.getPrice(),
-						((Offensive) bought).getDamage(), ((Offensive) bought).getMaxUse(), ((Offensive) bought).getUseLeft());
-			}
-			else if(bought instanceof Spell) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-12f | %-10s |\n",
-						bought.getID(), bought.getName(), "Spell", bought.getPrice(),
-						((Spell) bought).getDamage(), ((Spell) bought).getMana(), "-");
-			}
-		}
-	}
-
-	private void showDefensivesBought() {
-		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use", "Use Left");
-		for(Item bought : itemBought) {
-			if(bought instanceof Defensive) {
-				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10d | %-10d |\n",
-						bought.getID(), bought.getName(), "Defensive", bought.getPrice(),
-						((Defensive) bought).getDeflect(), ((Defensive) bought).getMaxUse(), ((Defensive) bought).getUseLeft());
-			}
-		}
 	}
 
 	private void whatsInTheGrass() {

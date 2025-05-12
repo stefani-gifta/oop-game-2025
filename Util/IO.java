@@ -2,7 +2,7 @@ package Util;
 
 import java.util.Scanner;
 
-public class Util {
+public class IO {
 	
 	public static Scanner scan = new Scanner(System.in);
 
@@ -33,10 +33,10 @@ public class Util {
             	System.out.println("Loading failed");
                 // e.printStackTrace();
             }
-            Util.CLEAR_CONSOLE();
+            IO.CLEAR_CONSOLE();
         }
         System.out.println("Loading complete!");
-        Util.PRESS_ENTER();
+        IO.PRESS_ENTER();
 	}
 
 }

@@ -1,10 +1,13 @@
 package Monster;
 
-public static class AddingMonster {
+import java.util.*;
+import Util.*;
 
-	public static ArrayList<Monster> monsterList = new ArrayList<>();
+public class AddingMonster {
 
-	public ArrayList<Item> getMonsters() {
+	private static ArrayList<Monster> monsterList = new ArrayList<>();
+
+	public static ArrayList<Monster> getMonsterList() {
         return monsterList;
     }
 	

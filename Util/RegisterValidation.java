@@ -1,6 +1,6 @@
 package Util;
 
-public static class RegisterValidation {
+public class RegisterValidation {
 
 	public static boolean isValidPassword(String password) {
 		if(password.length() >= 8 && password.length() <= 30) {

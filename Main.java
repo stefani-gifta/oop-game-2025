@@ -24,18 +24,19 @@ public class Main {
 			menuInput = IO.scan.nextInt(); IO.scan.nextLine();
 
 			IO.CLEAR_CONSOLE();
+			Authorization auth = new Authorization();
 			
 			switch(menuInput) {
 				case 1:
-					Authorization.login();
+					auth.login();
 					IO.CLEAR_CONSOLE();
 					break;
 				case 2:
-					Authorization.register();
+					auth.register();
 					IO.CLEAR_CONSOLE();
 					break;
 				case 3:
-					Authorization.changePassword();
+					auth.changePassword();
 					IO.CLEAR_CONSOLE();
 					break;
 				case 4:

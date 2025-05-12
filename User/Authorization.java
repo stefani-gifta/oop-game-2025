@@ -1,8 +1,16 @@
 package User;
 
-public static class Authorization {
+import Util.*;
 
-    public static void login() {
+import java.util.ArrayList;
+
+import Game.Game;
+
+public class Authorization {
+
+	private ArrayList<Credential> playerList = Credential.getPlayerList();
+
+    public void login() {
 		while(true) {
 			System.out.println("Input 'Exit' to quit");
 			
@@ -18,9 +26,9 @@ public static class Authorization {
 	        }
 	        
             // check if email and password are valid
-	        for(int i = 0; i < Game.playerList.size(); i++) {
-	        	if(email.equals(Game.playerList.get(i).getEmail())) {
-	        		if(password.equals(Game.playerList.get(i).getPassword())) {
+	        for(int i = 0; i < playerList.size(); i++) {
+	        	if(email.equals(playerList.get(i).getEmail())) {
+	        		if(password.equals(playerList.get(i).getPassword())) {
                         // get into the game
                         new Game(playerList.get(i));
                         return;
@@ -34,7 +42,7 @@ public static class Authorization {
 		}
 	}
 
-	public static void register() {
+	public void register() {
 		while(true) {
 			System.out.print("Enter new email: ");
 	        String email = IO.scan.nextLine();
@@ -45,7 +53,7 @@ public static class Authorization {
 	
 	            if(RegisterValidation.isValidPassword(password)) {
 	                Credential newCredential = new Credential(email, password);
-	                Game.playerList.add(newCredential);
+	                playerList.add(newCredential);
 	                System.out.println("Registration successful. You can login now.");
 	    	        IO.PRESS_ENTER();
 	                break;
@@ -56,29 +64,29 @@ public static class Authorization {
 		}
 	}
 
-	public static void changePassword() {
-		if(Game.playerList.isEmpty()) {
+	public void changePassword() {
+		if(playerList.isEmpty()) {
 			System.out.println("No account registered yet!");
 			IO.PRESS_ENTER();
 			return;
 		}
 		
 		System.out.println("Pick the number of your account (0 to cancel):");
-		for(int i = 0; i < Game.playerList.size(); i++) {
-			System.out.println(i+1 + ". " + Game.playerList.get(i).getEmail());
+		for(int i = 0; i < playerList.size(); i++) {
+			System.out.println(i+1 + ". " + playerList.get(i).getEmail());
 		}
 		int accountNumber = -1;
 		do {
 			System.out.print(">> ");
 			accountNumber = IO.scan.nextInt(); IO.scan.nextLine();
-			if(accountNumber < 0 || accountNumber > Game.playerList.size()) {
+			if(accountNumber < 0 || accountNumber > playerList.size()) {
 				System.out.println("Invalid input!");
 			} else if(accountNumber == 0) {
 				return;
 			}
-		} while(accountNumber < 0 || accountNumber > Game.playerList.size());
+		} while(accountNumber < 0 || accountNumber > playerList.size());
 		
-		Credential accountPicked = Game.playerList.get(accountNumber - 1);
+		Credential accountPicked = playerList.get(accountNumber - 1);
 		String password;
 		do {
 			System.out.print("Enter password: ");

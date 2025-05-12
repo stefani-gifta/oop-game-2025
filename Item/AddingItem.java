@@ -2,11 +2,11 @@ package Item;
 
 import java.util.ArrayList;
 
-public static class AddingItem {
+public class AddingItem {
 
     private static ArrayList<Item> itemList = new ArrayList<>();
 
-    public ArrayList<Item> getItems() {
+    public static ArrayList<Item> getItemList() {
         return itemList;
     }
 

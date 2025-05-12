@@ -1,5 +1,11 @@
 package Game;
 
+import java.util.ArrayList;
+import Item.*;
+import Monster.*;
+import User.Credential;
+import Util.*;
+
 public class Battlefield {
 
     public void goToArena() {
@@ -38,6 +44,19 @@ public class Battlefield {
 		IO.PRESS_ENTER();
 	}
 
+	private void showAttributesInformation(Monster monster) {
+		playerNow.showPlayerInformation();
+		System.out.println();
+		showMonsterInformation(monster);
+		System.out.println();
+	}
+
+    private void showMonsterInformation(Monster monster) {
+        System.out.println("Monster " + monster.getName() + " Information");
+		System.out.println("Health\t\t: " + monster.getHealth());
+		System.out.println("Base Damage\t: " + monster.getDamage());
+    }
+
 	private void playerTurntoFight(Monster monster) {
 		int input = -1;
 		do {
@@ -71,7 +90,7 @@ public class Battlefield {
     }
 
     private void attackWithItem() {
-        showOffensivesAndSpellsBought();
+        playerNow.showOffensivesAndSpellsBought();
         chooseAnItem();
     }
 
@@ -159,7 +178,7 @@ public class Battlefield {
 		for(Item bought : itemBought) {
 			if(bought instanceof Defensive) {
 				System.out.println("Do you want to use your defensive item?");
-				showDefensivesBought();
+				playerNow.showDefensivesBought();
 				String yesno = new String();
 				System.out.print("Yes | No [Case Insensitive]: ");
 				do {
