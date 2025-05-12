@@ -9,13 +9,11 @@ import Util.*;
 public class Battlefield {
 
 	private Credential playerNow;
-	private double damage = 0;
-	private double monsterDamage = 0;
-	private ArrayList<Item> itemBought = new ArrayList<Item>();
-	private ArrayList<Monster> monsterList = new ArrayList<Monster>();
+	private double damage;
+	private double monsterDamage;
+	private ArrayList<Item> itemBought;
 
-	// generate random monster
-	private Monster monster = monsterList.get(Randomizer.randomInt(0, monsterList.size()-1));
+	private Monster monster;
 
     private void showMonsterInformation() {
         System.out.println("Monster " + monster.getName() + " Information");
@@ -26,7 +24,9 @@ public class Battlefield {
 	public Battlefield(Game game) {
 		playerNow = game.playerNow;
 		itemBought = playerNow.getItemBought();
-		monsterList = game.monsterList;
+
+		// generate random monster
+		monster = game.monsterList.get(Randomizer.randomInt(0, game.monsterList.size()-1));
 	}
 
     public void goToArena() {

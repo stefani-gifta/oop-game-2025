@@ -11,13 +11,12 @@ import Util.*;
 
 public class Shop {
 
-    Gameplay gameplay;
-
-	Credential playerNow;
+	private Credential playerNow;
+	private ArrayList<Item> itemBought;
 
     public Shop(Gameplay gameplay) {
-        this.gameplay = gameplay;
 		playerNow = gameplay.playerNow;
+		itemBought = playerNow.getItemBought();
     }
 
     public void printShopPage() {
@@ -57,7 +56,7 @@ public class Shop {
 	private void buyOffensiveItem() {
         // has damage, max use
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use");
-		for(Item bought : playerNow.getItemBought()) {
+		for(Item bought : itemBought) {
 			if(bought instanceof Offensive) {
 				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10d |\n",
 						bought.getID(), bought.getName(), "Offensive", bought.getPrice(),
@@ -71,7 +70,7 @@ public class Shop {
 	private void buyDefensiveItem() {
         // has deflect, max use
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Deflect", "Max Use");
-		for(Item bought : playerNow.getItemBought()) {
+		for(Item bought : itemBought) {
 			if(bought instanceof Defensive) {
 				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10d |\n",
 						bought.getID(), bought.getName(), "Defensive", bought.getPrice(),
@@ -85,7 +84,7 @@ public class Shop {
 	private void buySpellItem() {
         // has damage, mana
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Mana");
-		for(Item bought : playerNow.getItemBought()) {
+		for(Item bought : itemBought) {
 			if(bought instanceof Spell) {
 				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10f |\n",
 						bought.getID(), bought.getName(), "Spell", bought.getPrice(),
@@ -107,7 +106,7 @@ public class Shop {
 			return;
 		}
 		
-		for(Item alreadyBought : playerNow.getItemBought()) {
+		for(Item alreadyBought : itemBought) {
 			if(toBuy.getID().equals(alreadyBought.getID())) {
 				if(toBuy instanceof Spell)
 					System.out.println("You already have this Spell item");
@@ -140,7 +139,7 @@ public class Shop {
 			System.out.print("Input item's ID ['Exit' to cancel]: ");
 			String ID = IO.scan.nextLine();
 			if(!ID.equalsIgnoreCase("exit")) {
-				for(Item bought : playerNow.getItemBought()) {
+				for(Item bought : itemBought) {
 					if(ID.equals(bought.getID())) {
 						found = true;
 						return bought;
