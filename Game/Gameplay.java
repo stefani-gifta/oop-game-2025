@@ -5,8 +5,8 @@ import Util.*;
 
 public class Gameplay {
 
-	private Game game;
-	public Credential playerNow;
+	protected Game game;
+	protected Credential playerNow;
 
     private Move move;
     private char[][] bigMap;
@@ -15,7 +15,7 @@ public class Gameplay {
         this.move = move;
         this.bigMap = bigMap;
 		this.game = game;
-		playerNow = game.playerNow;
+		playerNow = game.getPlayerNow();
     }
 
 	public void play() {
@@ -58,10 +58,9 @@ public class Gameplay {
 					System.out.println("Invalid input! Please input [w | a | s | d | i | z | e] (case insensitive)");
 					break;
 			}
-			
-//			System.out.println("\n" + move.getX() + " " + move.getY());
 
 			IO.CLEAR_CONSOLE();
+
 		} while(inputMove != 'e' || playerNow.getHealth() > 0);
 	}
 
@@ -92,12 +91,19 @@ public class Gameplay {
 				} catch (Exception e) {
 //					e.printStackTrace();
 					System.out.println("\nYou've reached the end of the world ...");
-					j -= 2; // forces player to go back
-					return;
+					System.out.println("Jumping back to the center ...");
+					moveToCenter();
+					i = move.getY();
+					j = move.getX();
 				}
 			}
 			System.out.println();
 		}
+	}
+
+	private void moveToCenter() {
+		move.setX(149);
+		move.setY(149);
 	}
 
 	private void checkMap(int newX, int newY) {
@@ -131,6 +137,7 @@ public class Gameplay {
 
 	private void whatsInTheGrass() {
 		int thereIsMonster = Randomizer.randomInt(0, 100);
+		System.out.println("there is a monster: " + thereIsMonster);
 		if(thereIsMonster < 30) { // 30% chance of encountering a monster
 			new Battlefield(game);
 		}

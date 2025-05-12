@@ -9,10 +9,10 @@ import Util.IO;
 
 public class Game {
 
-	public ArrayList<Item> itemList;
-	public ArrayList<Monster> monsterList;
+	private ArrayList<Item> itemList;
+	private ArrayList<Monster> monsterList;
 	
-	public Credential playerNow;
+	private Credential playerNow;
 
 	public Game(Credential player) {
 		// register items and monsters
@@ -27,6 +27,18 @@ public class Game {
 		// print game page
 		IO.CLEAR_CONSOLE();
 		new GameMenu(this);
+	}
+
+	public Credential getPlayerNow() {
+		return playerNow;
+	}
+
+	public ArrayList<Item> getItemList() {
+		return itemList;
+	}
+
+	public ArrayList<Monster> getMonsterList() {
+		return monsterList;
 	}
 	
 }

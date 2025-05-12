@@ -81,8 +81,8 @@ public class GameMenu {
 		do {
 			move.setX(Randomizer.randomInt(0, 299-35));
 			move.setY(Randomizer.randomInt(0, 299-15));
-//			move.setX(265);
-//			move.setY(285);
+			// move.setX(299); // reached end
+			// move.setY(299);
 		} while(bigMap[move.getY()][move.getX()] != ' ');
 
 		Gameplay play = new Gameplay(game, move, bigMap);

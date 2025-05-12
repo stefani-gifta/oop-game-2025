@@ -12,10 +12,12 @@ import Util.*;
 public class Shop {
 
 	private Credential playerNow;
+	private ArrayList<Item> itemList;
 	private ArrayList<Item> itemBought;
 
     public Shop(Gameplay gameplay) {
 		playerNow = gameplay.playerNow;
+		itemList = gameplay.game.getItemList();
 		itemBought = playerNow.getItemBought();
     }
 
@@ -23,7 +25,7 @@ public class Shop {
 		IO.CLEAR_CONSOLE();
 		int menuInput;
 		do {
-            System.out.println("Welcome to the shop!");
+            System.out.println("Let's buy some items!");
 		    System.out.println("You have " + playerNow.getMoney() + " coins now.\n");
 			System.out.println("1. Buy Offensive Item");
 			System.out.println("2. Buy Defensive Item");
@@ -56,7 +58,7 @@ public class Shop {
 	private void buyOffensiveItem() {
         // has damage, max use
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Max Use");
-		for(Item bought : itemBought) {
+		for(Item bought : itemList) {
 			if(bought instanceof Offensive) {
 				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10d |\n",
 						bought.getID(), bought.getName(), "Offensive", bought.getPrice(),
@@ -70,7 +72,7 @@ public class Shop {
 	private void buyDefensiveItem() {
         // has deflect, max use
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Deflect", "Max Use");
-		for(Item bought : itemBought) {
+		for(Item bought : itemList) {
 			if(bought instanceof Defensive) {
 				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10d |\n",
 						bought.getID(), bought.getName(), "Defensive", bought.getPrice(),
@@ -84,7 +86,7 @@ public class Shop {
 	private void buySpellItem() {
         // has damage, mana
 		System.out.printf("| %-10s | %-25s | %-15s | %-10s | %-10s | %-10s |\n", "ID", "Name", "Type", "Price", "Damage", "Mana");
-		for(Item bought : itemBought) {
+		for(Item bought : itemList) {
 			if(bought instanceof Spell) {
 				System.out.printf("| %-10s | %-25s | %-15s | %-10d | %-10f | %-10f |\n",
 						bought.getID(), bought.getName(), "Spell", bought.getPrice(),
@@ -145,6 +147,9 @@ public class Shop {
 						return bought;
 					}
 				}
+			} else {
+				IO.CLEAR_CONSOLE();
+				return null;
 			}
 			if(!found) System.out.println("Item not found!");
 		} while(!found);

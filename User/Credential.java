@@ -103,7 +103,6 @@ public class Credential {
 	public boolean hasItemBought() {
 		if(itemBought.isEmpty()) {
 			System.out.println("You haven't bought any item yet. Go to shop menu (Z) to buy.");
-			IO.PRESS_ENTER();
 			return false;
 		}
 		return true;

@@ -22,11 +22,12 @@ public class Battlefield {
     }
 
 	public Battlefield(Game game) {
-		playerNow = game.playerNow;
+		playerNow = game.getPlayerNow();
 		itemBought = playerNow.getItemBought();
 
 		// generate random monster
-		monster = game.monsterList.get(Randomizer.randomInt(0, game.monsterList.size()-1));
+		monster = game.getMonsterList().get(Randomizer.randomInt(0, game.getMonsterList().size()-1));
+		goToArena();
 	}
 
     public void goToArena() {
@@ -51,26 +52,24 @@ public class Battlefield {
 	private void playerFirst() {
 		System.out.println("You are first to attack");
 		while(playerNow.getHealth() > 0 && monster.getHealth() > 0) {
-			checkPlayerHealth();
+			showAttributesInformation();
+			playerTurntoFight();
 			checkMonsterHealth();
 			showAttributesInformation();
-			if(playerNow.getHealth() > 0) playerTurntoFight();
-			else return;
-			showAttributesInformation();
-			if(monster.getHealth() > 0) monsterTurntoFight();
+			monsterTurntoFight();
+			checkPlayerHealth();
 		}
 	}
 
 	private void monsterFirst() {
 		System.out.println("Monster is first to attack");
 		while(playerNow.getHealth() > 0 && monster.getHealth() > 0) {
+			showAttributesInformation();
+			monsterTurntoFight();
 			checkPlayerHealth();
+			showAttributesInformation();
+			playerTurntoFight();
 			checkMonsterHealth();
-			showAttributesInformation();
-			if(monster.getHealth() > 0) monsterTurntoFight();
-			else return;
-			showAttributesInformation();
-			if(playerNow.getHealth() > 0) playerTurntoFight();
 		}
 	}
 
@@ -262,7 +261,7 @@ public class Battlefield {
 		if(use != null) {
 			checkItemType(use);
 		} else {
-			System.out.println("Received damage " + damage);
+			System.out.println("Received damage " + monsterDamage);
 		}
 
 		playerNow.setHealth(playerNow.getHealth() - monsterDamage);
