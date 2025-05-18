@@ -1,2 +1,7 @@
-static = store in class-level memory, passed around by reference
-final = cannot be edited anymore (used in Monster, Item objects)
+static = stored in class-level memory, passed around by reference
+final = cannot be edited once initialized (used in Monster, Item objects)
+
+encapsulation
+abstraction
+polymorphism
+inheritance

@@ -1,34 +1,39 @@
-# <game name?>
+```text
+  ____   ___   ____   ____        ____   ____  ____ 
+ |___ \ / _ \ |___ \||  ___|     / __ \ / __ \|  _ \
+   __) | | | |  __) ||  |__   . | |  | | |  | | |_) /
+  / __/| |_| | / __/ \___  \  . | |__| | |__| |  __/
+ |_____|\___/ |_____||_____/     \____/ \____/|_|
+```
 
-Welcome to the **<game name?>**, a console-based RPG where players explore a vast map, collect coins, battle monsters, and purchase items to enhance their gameplay experience.
+# 2025: Open-World Odyssey Project (OOP)
+
+Welcome to the **2025: OOP**, a CLI-based console game where players can explore a vast map, collect coins, battle monsters, and purchase items.
+
+This project is built using **Object-Oriented Programming (OOP)** principles.
 
 ---
 
 ## Table of Contents
 
-1. [Features](#features)  
-2. [How to Play](#how-to-play)  
-3. [Game Mechanics](#game-mechanics)  
-4. [Installation](#installation)  
-5. [Contributing](#contributing)  
-6. [License](#license)  
+1. [Features](#features)
+2. [How to Play](#how-to-play)
+3. [Game Mechanics](#game-mechanics)
+4. [Installation](#installation)
 
 ---
 
 ## Features
 
-- **Exploration**  
-  Navigate a 300×300 map filled with grass, walls, and coins.  
-- **Combat**  
-  Encounter and battle monsters with unique abilities.  
-- **Items**  
-  Purchase offensive, defensive, and spell items to aid in battles.  
-- **Player Progression**  
-  Manage health, mana, and money as you progress.  
+- **Endless Exploration**  
+  The map is generated every new game is started.
+  Grass, walls, and coins are placed randomly.
+- **Randomized Combat**
+  There is a 30% chance of encountering a monster in the grass.
+  Each monster has unique ability (strength, agility, or intelligence).
 - **Shop System**  
-  Buy items to enhance your character’s abilities.  
-- **Dynamic Gameplay**  
-  Randomized map generation and monster encounters ensure replayability.  
+  Player can buy offensive, defensive, and spell items using their coins.
+  These items can help in battling monsters.
 
 ---
 
@@ -42,7 +47,7 @@ Welcome to the **<game name?>**, a console-based RPG where players explore a vas
 | **A** | Move left                        |
 | **S** | Move down                        |
 | **D** | Move right                       |
-| **I** | View items you’ve purchased      |
+| **I** | View purchased items             |
 | **Z** | Open the shop                    |
 | **E** | Exit the game                    |
 
@@ -50,8 +55,8 @@ Welcome to the **<game name?>**, a console-based RPG where players explore a vas
 
 | Symbol | Meaning                                       |
 | ------ | --------------------------------------------- |
-| **O**    | Coin (collect to earn money)                |
-| **v / V**| Grass (may hide monsters)                  |
+| **O**    | Coin (collect to buy items)                 |
+| **v / V**| Grass (may hide monsters)                   |
 | **#**    | Wall (impassable)                           |
 | **X**    | Player character                            |
 
@@ -61,36 +66,42 @@ Welcome to the **<game name?>**, a console-based RPG where players explore a vas
 
 ### Map
 
-- The world is a **300×300** grid with randomized terrain.
-- **Coins** are scattered across the map; collecting them gives you money.
+- The world is a 300×300 grid with randomized placement of grass, walls, and coins.
+- Upon reaching the end of the map, player automatically jumps to the center.
 
 ### Monsters
 
-Monsters lurk in grass patches and have special abilities:
+Monsters lurk in grass and have special abilities:
 
-| Monster Type    | Ability                                    |
-| --------------- | ------------------------------------------ |
-| **Strength**    | Deflects a portion of incoming damage      |
-| **Agility**     | Deals critical bonus damage                |
-| **Intelligence**| Adds extra bonus damage to each attack     |
-
-### Items
-
-- **Offensive Items**: Increase your attack damage.  
-- **Defensive Items**: Deflect incoming damage.  
-- **Spell Items**: Spend mana to deal additional magic damage.  
-
-### Shop
-
-- Press **Z** in-game to open the shop.  
-- Purchase items with coins collected on the map.  
+- **Strength**: Deflects a portion of incoming damage.
+- **Agility**: Deals critical bonus damage.
+- **Intelligence**: Adds extra bonus damage to each attack.
 
 ### Combat
 
-- **Pure Attack**: Deal base damage to the monster.  
-- **Item-Based Attack**: Use an offensive or spell item, consuming its uses or mana cost.  
-- **Store Mana**: Regain mana instead of attacking.  
+Player's turn options:
+
+- **Pure Attack**: Deal base damage to the monster.
+- **Item-Based Attack**: Use an offensive or spell item, consuming its uses or mana cost.
+- **Store Mana**: Regain mana instead of attacking.
+
+Player option during monster's turn:
+
 - **Defensive Use**: Equip a defensive item during a monster’s attack to reduce damage.
+
+### Shop
+
+- Press Z in-game to open the shop.
+- Purchase items with coins collected on the map.
+- Press I to view purchased items.
+
+### Items
+
+Three types of items available for purchase:
+
+- **Offensive**: Increase player's attack damage.
+- **Defensive**: Deflect incoming damage from monster.
+- **Spell**: Costs mana to deal additional magic damage.
 
 ---
 
@@ -100,7 +111,7 @@ Monsters lurk in grass patches and have special abilities:
    ```bash
    git clone https://github.com/stefani-gifta/oop-game-2025
     ```
-2. **Open the project** in your IDE
+2. **Open the project** in your favorite IDE
 3. **Navigate to the src directory**  
    ```bash
    cd src
@@ -115,4 +126,5 @@ Monsters lurk in grass patches and have special abilities:
    ```
 6. **Enjoy the game**
 
-Thank you for playing the <game name?>! We hope you enjoy your adventure. If you have any questions or feedback, feel free to reach out.
+Thank you for playing the 2025: OOP! I hope you enjoy your adventure.
+If you have any questions or feedback, feel free to reach out.
