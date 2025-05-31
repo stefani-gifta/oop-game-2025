@@ -12,6 +12,7 @@ public class Offensive extends Item implements maxUse {
 		if(useLeft > 0) {
 			return true;
 		}
+		System.out.println("Offensive item has no use left");
 		return false;
 	}
 
