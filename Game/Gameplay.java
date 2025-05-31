@@ -28,7 +28,7 @@ public class Gameplay {
             playerNow.showPlayerInformation();
 			System.out.print(">> ");
 			
-			System.out.println("\nx: " + move.getX() + ", y: " + move.getY());
+			// System.out.println("\nx: " + move.getX() + ", y: " + move.getY());
 			
 			inputMove = IO.scan.next().charAt(0); IO.scan.nextLine();
 			

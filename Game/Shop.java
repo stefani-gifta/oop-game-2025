@@ -141,10 +141,10 @@ public class Shop {
 			System.out.print("Input item's ID ['Exit' to cancel]: ");
 			String ID = IO.scan.nextLine();
 			if(!ID.equalsIgnoreCase("exit")) {
-				for(Item bought : itemBought) {
-					if(ID.equals(bought.getID())) {
+				for(Item item : itemList) {
+					if(ID.equals(item.getID())) {
 						found = true;
-						return bought;
+						return item;
 					}
 				}
 			} else {
