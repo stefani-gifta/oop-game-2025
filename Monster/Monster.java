@@ -1,6 +1,6 @@
 package Monster;
 
-public abstract class Monster {
+public class Monster {
 
 	// final -> cannot be edited anymore
 	private final String name;
