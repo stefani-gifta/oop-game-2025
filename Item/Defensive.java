@@ -18,6 +18,7 @@ public class Defensive extends Item implements maxUse {
 		if(useLeft > 0) {
 			return true;
 		}
+		System.out.println("Defensive item has no use left");
 		return false;
 	}
 
