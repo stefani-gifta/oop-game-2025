@@ -20,6 +20,7 @@ public class Gameplay {
 
 	public void play() {
 		char inputMove = '0';
+		boolean isExit = false;
 
         // will only be printing small portions of the big map
 		do {
@@ -40,7 +41,7 @@ public class Gameplay {
                     new Shop(this).printShopPage();
 					break;
 				case "e":
-                    printExitConfirmation();
+                    isExit = printExitConfirmation();
 					break;
 				case "w":
 					checkMap(move.getX(), move.getY()-1);
@@ -61,23 +62,25 @@ public class Gameplay {
 
 			IO.CLEAR_CONSOLE();
 
-		} while(inputMove != 'e' || playerNow.getHealth() > 0);
+		} while(!isExit && playerNow.getHealth() > 0);
 	}
 
-    private void printExitConfirmation() {
+    private boolean printExitConfirmation() {
         System.out.println("Are you sure? If you exit now, your information will be lost.");
         System.out.print("Yes | No [Case Insensitive]: ");
-        String yesno = new String();
+        String yesno = null;
         do {
             yesno = IO.scan.nextLine();
+			// System.out.println("Input: " + yesno);
             if(yesno.equalsIgnoreCase("yes")) {
                 IO.CLEAR_CONSOLE();
-                return;
+                return true;
             }
             else if(!yesno.equalsIgnoreCase("no")) {
                 System.out.print("Please input Yes | No [Case Insensitive]: ");
             }
         } while(!yesno.equalsIgnoreCase("no"));
+		return false;
     }
 
 	private void showPortionofMap() {
