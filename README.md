@@ -14,7 +14,7 @@ This project is built using **Object-Oriented Programming (OOP)** principles.
 
 ## Demo
 
-<video src="./demo video.mp4" controls></video>
+https://github.com/user-attachments/assets/267bed80-b687-454b-a1c7-1e161ca66986
 
 ---
 
