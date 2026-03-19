@@ -12,6 +12,10 @@ Welcome to the **2025: OOP**, a CLI-based console game where players can explore
 
 This project is built using **Object-Oriented Programming (OOP)** principles.
 
+## Demo
+
+<video src="./demo video.mp4" controls></video>
+
 ---
 
 ## Features
