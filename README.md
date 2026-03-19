@@ -14,51 +14,19 @@ This project is built using **Object-Oriented Programming (OOP)** principles.
 
 ---
 
-## Table of Contents
-
-1. [Features](#features)
-2. [How to Play](#how-to-play)
-3. [Game Mechanics](#game-mechanics)
-4. [Installation](#installation)
-
----
-
 ## Features
 
-- **Endless Exploration**  
-  The map is generated every new game is started.
-  Grass, walls, and coins are placed randomly.
+- **Endless Exploration**
+
+  The map is generated every new game is started. Grass, walls, and coins are placed randomly.
+  
 - **Randomized Combat**
-  There is a 30% chance of encountering a monster in the grass.
-  Each monster has unique ability (strength, agility, or intelligence).
-- **Shop System**  
-  Player can buy offensive, defensive, and spell items using their coins.
-  These items can help in battling monsters.
 
----
+  There is a 30% chance of encountering a monster in the grass. Each monster has unique ability (strength, agility, or intelligence).
+  
+- **Shop System**
 
-## How to Play
-
-### Controls
-
-| Key | Action                             |
-| --- | ---------------------------------- |
-| **W** | Move up                          |
-| **A** | Move left                        |
-| **S** | Move down                        |
-| **D** | Move right                       |
-| **I** | View purchased items             |
-| **Z** | Open the shop                    |
-| **E** | Exit the game                    |
-
-### Symbols
-
-| Symbol | Meaning                                       |
-| ------ | --------------------------------------------- |
-| **O**    | Coin (collect to buy items)                 |
-| **v / V**| Grass (may hide monsters)                   |
-| **#**    | Wall (impassable)                           |
-| **X**    | Player character                            |
+  Player can buy offensive, defensive, and spell items using their coins. These items can help in battling monsters.
 
 ---
 
@@ -105,7 +73,9 @@ Three types of items available for purchase:
 
 ---
 
-## Installation in CMD/Command Prompt
+## How to Play
+
+### Installation in CMD/Command Prompt
 
 1. **Make sure Git and JDK are installed**
 
@@ -136,7 +106,44 @@ Three types of items available for purchase:
    ```bash
    java Main
    ```
-7. **Enjoy the game**
+
+### Game Guide
+
+#### Step-by-Step Instruction
+
+1. **Register** your email and password if you haven't already.
+
+   Data is temporary. It will be deleted once you exited the program.
+
+3. **Login** to the registered email and password. You can also change your password in the main menu.
+4. Choose an option from the game menu. Simply **choose 1 to start playing**.
+5. You will see this in your screen:
+
+   <img width="285" height="396" alt="image" src="https://github.com/user-attachments/assets/730ef590-eae6-4126-93d2-efdfec1f1d33" />
+   
+   This means you have **successfully entered the game**.
+6. Use the below **controls and symbols** to explore the world.
+
+#### Controls
+
+| Key | Action                             |
+| --- | ---------------------------------- |
+| **W** | Move up                          |
+| **A** | Move left                        |
+| **S** | Move down                        |
+| **D** | Move right                       |
+| **I** | View purchased items             |
+| **Z** | Open the shop                    |
+| **E** | Exit the game                    |
+
+#### Symbols
+
+| Symbol | Meaning                                       |
+| ------ | --------------------------------------------- |
+| **O**    | Coin (collect to buy items)                 |
+| **v / V**| Grass (may hide monsters)                   |
+| **#**    | Wall (impassable)                           |
+| **X**    | Player character                            |
 
 Thank you for playing the 2025: OOP! I hope you enjoy your adventure.
 If you have any questions or feedback, feel free to reach out.
