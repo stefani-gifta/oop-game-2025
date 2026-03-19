@@ -105,26 +105,38 @@ Three types of items available for purchase:
 
 ---
 
-## Installation
+## Installation in CMD/Command Prompt
 
-1. **Clone the repository**  
+1. **Make sure Git and JDK are installed**
+
+   For Git:
+   ```bash
+   git --version
+   ```
+   If not yet installed, download it [here](https://git-scm.com/downloads).
+
+   For JDK:
+   ```bash
+   javac -version
+   ```
+   If not yet installed, download it [here](https://adoptium.net/temurin/releases).
+3. **Clone the repository**  
    ```bash
    git clone https://github.com/stefani-gifta/oop-game-2025
     ```
-2. **Open the project** in your favorite IDE
-3. **Navigate to the src directory**  
+4. **Navigate to the directory**  
    ```bash
-   cd src
+   cd oop-game-2025
    ```
-4. **Compile the Java files**  
+5. **Compile the Java files**  
    ```bash
    javac Main.java
    ```
-5. **Run the game**  
+6. **Run the game**  
    ```bash
    java Main
    ```
-6. **Enjoy the game**
+7. **Enjoy the game**
 
 Thank you for playing the 2025: OOP! I hope you enjoy your adventure.
 If you have any questions or feedback, feel free to reach out.
